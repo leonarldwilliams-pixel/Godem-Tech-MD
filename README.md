@@ -1,7 +1,7 @@
 # ⛓ SΛVΛGΞ-TECH ☢
 
 <p align="center">
-  <img src="https://files.catbox.moe/7ipa9d.jpg" width="300" alt="SΛVΛGΞ-TECH">
+  <img src="https://files.catbox.moe/reldwp.jpg" width="300" alt="SΛVΛGΞ-TECH">
 </p>
 
 <p align="center">
