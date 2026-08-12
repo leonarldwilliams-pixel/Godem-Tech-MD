@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/tysavage163/Savage-Tech">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=1000&color=00FFFF&center=true&vCenter=true&width=900&height=100&lines=A+Baileys+multi‑device+WhatsApp+bot;Created+by+Spencer;inspired+by+Meryl;Now+deployable+on+all+platforms;pair...;deploy...;enjoy...;a+masterpiece+in+creation" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=1000&color=00FFFF&center=true&vCenter=true&width=900&height=100&lines=A+Baileys+multi-device+WhatsApp+bot;Created+by+Spencer;inspired+by+Meryl;Now+deployable+on+all+platforms;pair...;deploy...;enjoy...;a+masterpiece+in+creation" alt="Typing SVG" />
   </a>
 </p>
 
