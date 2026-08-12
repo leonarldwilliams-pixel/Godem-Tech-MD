@@ -1,11 +1,13 @@
 # ⛓ SΛVΛGΞ-TECH ☢
 
 <p align="center">
-  <img src="https://files.catbox.moe/reldwp.jpg" width="300" alt="SΛVΛGΞ-TECH">
+  <img src="https://files.catbox.moe/7ipa9d.jpg" width="300" alt="SΛVΛGΞ-TECH">
 </p>
 
 <p align="center">
-<a href="https://github.com/tysavage163/Savage-Tech"><img src="https://readme-typing-svg.herokuapp.com?font=Courier+New&weight=800&size=42&pause=1000&color=A020F0&center=true&vCenter=true&width=900&lines=a+Baileys+multi‑device+WhatsApp+bot;Created+by+Spencer;inspired+by+Meryl;Now+deployable+on+all+platforms;pair...;deploy...;enjoy...;a+masterpiece+in+creation" alt="Typing SVG" /></a>
+  <a href="https://github.com/tysavage163/Savage-Tech">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=1000&color=00FFFF&center=true&vCenter=true&width=900&height=100&lines=A+Baileys+multi‑device+WhatsApp+bot;Created+by+Spencer;inspired+by+Meryl;Now+deployable+on+all+platforms;pair...;deploy...;enjoy...;a+masterpiece+in+creation" alt="Typing SVG" />
+  </a>
 </p>
 
 ---
@@ -81,7 +83,7 @@
 ### 🔗 JOIN OUR CHANNEL
 <p align="center">
   <a href="https://whatsapp.com/channel/0029VbCuEBJEAKWOWVH3G21e">
-    <img src="https://img.shields.io/badge/JOIN_WHATSAPP_CHANNEL-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Join WhatsApp Channel">
+    <img src="https://img.shields.io/badge/Join_WhatsApp_Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&color=0A8C39" alt="Join WhatsApp Channel"/>
   </a>
 </p>
 
@@ -102,5 +104,7 @@
 ---
 
 <p align="center">
-<a href="https://github.com/tysavage163/Savage-Tech"><img src="https://readme-typing-svg.herokuapp.com?font=Courier+New&weight=800&size=28&pause=1500&color=FF69B4&center=true&vCenter=true&width=800&lines=Keep+it+simple,+make+it+powerful." alt="Typing SVG" /></a>
+  <a href="https://github.com/tysavage163/Savage-Tech">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=26&pause=1500&color=00FFFF&center=true&vCenter=true&width=800&height=80&lines=Keep+it+simple,+make+it+powerful." alt="Typing SVG" />
+  </a>
 </p>
