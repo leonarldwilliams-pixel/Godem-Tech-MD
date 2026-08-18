@@ -1,4 +1,3 @@
-
 # ⛓ SΛVΛGΞ-TECH ☢
 
 <p align="center">
@@ -16,7 +15,7 @@
 ### 📂 FORK SΛVΛGΞ-TECH
 <p align="center">
   <a href="https://github.com/tysavage163/Savage-Tech/fork">
-    <img src="https://img.shields.io/badge/FORK_REPO-000080?style=for-the-badge&logo=github&logoColor=white" alt="Fork Repo">
+    <img src="https://img.shields.io/badge/FORK_REPO-1A1A2E?style=for-the-badge&logo=github&logoColor=white" alt="Fork Repo">
   </a>
 </p>
 
@@ -25,21 +24,21 @@
 ### 🚀 DEPLOY SΛVΛGΞ-TECH
 <p align="center">
   <a href="https://dashboard.render.com/web/new">
-    <img src="https://img.shields.io/badge/RENDER_DEPLOY-007BFF?style=for-the-badge&logo=render&logoColor=white" alt="Render Deploy">
+    <img src="https://img.shields.io/badge/RENDER_DEPLOY-16213E?style=for-the-badge&logo=render&logoColor=white" alt="Render Deploy">
   </a>
   <a href="https://heroku.com/deploy?template=https://github.com/tysavage163/Savage-Tech">
-    <img src="https://img.shields.io/badge/HEROKU_DEPLOY-6A0DAD?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku Deploy">
+    <img src="https://img.shields.io/badge/HEROKU_DEPLOY-2C1A4D?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku Deploy">
   </a>
   <a href="https://app.koyeb.com/deploy?type=git&repository=github.com/tysavage163/Savage-Tech&branch=main">
-    <img src="https://img.shields.io/badge/KOYEB_DEPLOY-28A745?style=for-the-badge&logo=koyeb&logoColor=white" alt="Koyeb Deploy">
+    <img src="https://img.shields.io/badge/KOYEB_DEPLOY-1B3B2B?style=for-the-badge&logo=koyeb&logoColor=white" alt="Koyeb Deploy">
   </a>
   <a href="https://katabump.com">
-    <img src="https://img.shields.io/badge/🚀_KATABUMP_DEPLOY-FF8C00?style=for-the-badge&logo=rocket&logoColor=white" alt="Katabump Deploy">
+    <img src="https://img.shields.io/badge/🚀_KATABUMP_DEPLOY-3D2B1F?style=for-the-badge&logo=rocket&logoColor=white" alt="Katabump Deploy">
   </a>
 </p>
 <p align="center">
   <a href="https://bot-hosting.net">
-    <img src="https://img.shields.io/badge/DEPLOY_ON_BOT‑HOSTING.NET-DC3545?style=for-the-badge&logo=server&logoColor=white" alt="Bot-Hosting.net Deploy">
+    <img src="https://img.shields.io/badge/DEPLOY_ON_BOT‑HOSTING.NET-2E2E2E?style=for-the-badge&logo=server&logoColor=white" alt="Bot-Hosting.net Deploy">
   </a>
 </p>
 
@@ -61,7 +60,7 @@
 ### 🔑 SESSION PAIRING
 <p align="center">
   <a href="https://savage-tech-pair-1.onrender.com">
-    <img src="https://img.shields.io/badge/PAIR_CODE_1-2C3E50?style=for-the-badge&logo=connection&logoColor=white" alt="Pair 1">
+    <img src="https://img.shields.io/badge/PAIR_CODE_1-1F3A5F?style=for-the-badge&logo=connection&logoColor=white" alt="Pair 1">
   </a>
 </p>
 <p align="center">
@@ -75,7 +74,7 @@
 ### 📦 SΛVΛGΞ-TECH ZIP
 <p align="center">
   <a href="https://github.com/tysavage163/Savage-Tech/archive/refs/heads/main.zip">
-    <img src="https://img.shields.io/badge/DOWNLOAD_ZIP-006400?style=for-the-badge&logo=github&logoColor=white" alt="Download Zip">
+    <img src="https://img.shields.io/badge/DOWNLOAD_ZIP-1E3A2A?style=for-the-badge&logo=github&logoColor=white" alt="Download Zip">
   </a>
 </p>
 
@@ -84,7 +83,7 @@
 ### 🔗 JOIN OUR CHANNEL
 <p align="center">
   <a href="https://whatsapp.com/channel/0029VbCuEBJEAKWOWVH3G21e">
-    <img src="https://img.shields.io/badge/Join_WhatsApp_Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&color=0A8C39" alt="Join WhatsApp Channel"/>
+    <img src="https://img.shields.io/badge/Join_WhatsApp_Channel-0A2F1D?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Join WhatsApp Channel"/>
   </a>
 </p>
 
@@ -93,12 +92,12 @@
 ### 👤 CONTACT DEVELOPER
 <p align="center">
   <a href="https://wa.me/254105397996">
-    <img src="https://img.shields.io/badge/CONTACT_DEVELOPER-5D3FD3?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Contact Developer">
+    <img src="https://img.shields.io/badge/CONTACT_DEVELOPER-2B1B3D?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Contact Developer">
   </a>
 </p>
 <p align="center">
   <a href="https://t.me/Savagemystique">
-    <img src="https://img.shields.io/badge/CONTACT_TELEGRAM-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact Telegram">
+    <img src="https://img.shields.io/badge/CONTACT_TELEGRAM-1A2A4A?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact Telegram">
   </a>
 </p>
 
@@ -109,5 +108,3 @@
     <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=26&pause=1500&color=00FFFF&center=true&vCenter=true&width=800&height=80&lines=Keep+it+simple,+make+it+powerful." alt="Typing SVG" />
   </a>
 </p>
-
-
