@@ -138,7 +138,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // Stats endpoint for live data
+    // Stats endpoint – includes botVersion
     if (pathname === '/stats') {
         const uptimeSec = process.uptime();
         const totalMem = (os.totalmem() / 1024 / 1024).toFixed(0);
@@ -152,7 +152,7 @@ const server = http.createServer(async (req, res) => {
             memory: { used: usedMem, total: totalMem },
             commands: commandsCount,
             platform: getHostPlatform(),
-            nodeVersion: process.version
+            botVersion: global.version || '1.4.1'
         }));
         return;
     }
@@ -249,17 +249,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ---------- MAIN DASHBOARD HTML (NEW DESIGN) ----------
-    const quotes = [
-        "The system is online. Your irrelevance persists.",
-        "Savage core humming. No anomalies detected.",
-        "I don't sleep. I wait. I execute.",
-        "Status: Predatory. All systems nominal.",
-        "Your reality is just a simulation I tolerate.",
-        "Eyes open. No mercy."
-    ];
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-
+    // ---------- MAIN DASHBOARD HTML (FINAL) ----------
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -267,257 +257,163 @@ const server = http.createServer(async (req, res) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SAVAGE‑TECH // DASH</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Inter', sans-serif;
-            background: #080b15;
-            padding: 1.5rem;
-            position: relative;
+            min-height:100vh; display:flex; align-items:center; justify-content:center;
+            font-family:'Inter',sans-serif; background:#080b15; padding:1.5rem; position:relative;
         }
-
         body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: url('https://files.catbox.moe/bkann8.jpg') center / cover no-repeat;
-            opacity: 0.2;
-            z-index: 0;
+            content:''; position:fixed; inset:0;
+            background:url('https://files.catbox.moe/bkann8.jpg') center/cover no-repeat;
+            opacity:0.2; z-index:0;
         }
-
         body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 70% 30%, rgba(100, 60, 255, 0.08), transparent 60%),
-                        radial-gradient(circle at 20% 80%, rgba(0, 200, 255, 0.05), transparent 50%);
-            z-index: 0;
-            pointer-events: none;
+            content:''; position:fixed; inset:0;
+            background:radial-gradient(circle at 70% 30%,rgba(100,60,255,0.08),transparent 60%),
+                     radial-gradient(circle at 20% 80%,rgba(0,200,255,0.05),transparent 50%);
+            z-index:0; pointer-events:none;
         }
-
         .card {
-            position: relative;
-            z-index: 1;
-            max-width: 740px;
-            width: 100%;
-            background: rgba(10, 13, 24, 0.75);
-            backdrop-filter: blur(18px) saturate(180%);
-            -webkit-backdrop-filter: blur(18px) saturate(180%);
-            border-radius: 2.2rem;
-            padding: 2.2rem 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(100, 60, 255, 0.15);
-            transition: transform 0.25s ease;
+            position:relative; z-index:1; max-width:740px; width:100%;
+            background:rgba(10,13,24,0.75); backdrop-filter:blur(18px) saturate(180%);
+            -webkit-backdrop-filter:blur(18px) saturate(180%);
+            border-radius:2.2rem; padding:2.2rem 2.5rem;
+            border:1px solid rgba(255,255,255,0.06);
+            box-shadow:0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(100,60,255,0.15);
+            transition:transform 0.25s ease;
         }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
+        .card:hover { transform:translateY(-3px); }
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.4rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            padding-bottom: 0.6rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            display:flex; justify-content:space-between; align-items:center;
+            margin-bottom:1.4rem; border-bottom:1px solid rgba(255,255,255,0.04);
+            padding-bottom:0.6rem; flex-wrap:wrap; gap:0.5rem;
         }
-
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, #b388ff, #7c4dff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(124, 77, 255, 0.2);
+            font-size:1.8rem; font-weight:700; letter-spacing:1px;
+            background:linear-gradient(135deg,#b388ff,#7c4dff);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow:0 0 30px rgba(124,77,255,0.2);
         }
-
         .clock {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #9aa4c8;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            letter-spacing: 0.5px;
+            font-size:0.85rem; font-weight:500; color:#9aa4c8;
+            background:rgba(255,255,255,0.04); padding:0.3rem 1rem; border-radius:30px;
+            border:1px solid rgba(255,255,255,0.05); letter-spacing:0.5px;
         }
-
         .status-line {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 0.6rem 1.2rem;
-            border-radius: 14px;
-            margin-bottom: 1.8rem;
-            border-left: 3px solid #7c4dff;
+            display:flex; align-items:center; gap:0.8rem;
+            background:rgba(0,0,0,0.25); padding:0.6rem 1.2rem; border-radius:14px;
+            margin-bottom:1.8rem; border-left:3px solid #7c4dff;
         }
-
         .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #00e676;
-            box-shadow: 0 0 16px #00e676aa;
-            animation: pulse-dot 1.6s infinite;
+            width:10px; height:10px; border-radius:50%;
+            background:#00e676; box-shadow:0 0 16px #00e676aa;
+            animation:pulse-dot 1.6s infinite;
         }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.8); }
-        }
-
-        #status-text {
-            font-weight: 500;
-            color: #d4dcff;
-            font-size: 0.95rem;
-        }
-
+        @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+        #status-text { font-weight:500; color:#d4dcff; font-size:0.95rem; }
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.9rem;
-            margin: 1.6rem 0;
+            display:grid; grid-template-columns:repeat(3,1fr); gap:0.9rem; margin:1.6rem 0;
         }
-
         .stat-item {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 14px;
-            padding: 0.7rem 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: background 0.2s;
+            background:rgba(255,255,255,0.02); border-radius:14px; padding:0.7rem 0.9rem;
+            border:1px solid rgba(255,255,255,0.03); transition:background 0.2s;
         }
-
-        .stat-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-        }
-
+        .stat-item:hover { background:rgba(255,255,255,0.04); }
         .stat-label {
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #7a84a8;
-            font-weight: 600;
+            font-size:0.55rem; text-transform:uppercase; letter-spacing:0.8px;
+            color:#7a84a8; font-weight:600;
         }
-
         .stat-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #eef2ff;
-            margin-top: 0.15rem;
-            display: flex;
-            align-items: baseline;
-            gap: 0.2rem;
-            flex-wrap: wrap;
+            font-size:1.1rem; font-weight:700; color:#eef2ff; margin-top:0.15rem;
+            display:flex; align-items:baseline; gap:0.2rem; flex-wrap:wrap;
         }
-
-        .stat-value .unit {
-            font-size: 0.65rem;
-            font-weight: 400;
-            color: #7a84a8;
+        .stat-value .unit { font-size:0.65rem; font-weight:400; color:#7a84a8; }
+        .stat-value .version-badge {
+            font-size:0.7rem; font-weight:600;
+            background:rgba(124,77,255,0.2); padding:0.1rem 0.6rem; border-radius:20px;
+            border:1px solid rgba(124,77,255,0.3); color:#b388ff;
         }
-
         .quote-box {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 0.8rem 1.2rem;
-            margin: 1.4rem 0 1.6rem 0;
-            border-left: 3px solid #ff6b6b;
-            color: #c8d0e8;
-            font-size: 0.9rem;
-            transition: opacity 0.4s ease;
-            min-height: 3rem;
-            display: flex;
-            align-items: center;
+            background:rgba(0,0,0,0.2); border-radius:12px; padding:0.8rem 1.2rem;
+            margin:1.4rem 0 1.6rem 0; border-left:3px solid #ff6b6b;
+            color:#c8d0e8; font-size:0.9rem; transition:opacity 0.4s ease;
+            min-height:3rem; display:flex; align-items:center;
         }
-
-        .quote-box::before {
-            content: "› ";
-            color: #ff6b6b;
-            font-weight: 700;
-            margin-right: 0.3rem;
-        }
-
+        .quote-box::before { content:"› "; color:#ff6b6b; font-weight:700; margin-right:0.3rem; }
         .actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
+            display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:0.5rem;
         }
-
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.04);
-            color: #c8d0e8;
-            text-decoration: none;
-            padding: 0.6rem 1.8rem;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.25s ease;
-            backdrop-filter: blur(4px);
-            cursor: pointer;
+            display:inline-flex; align-items:center; justify-content:center;
+            background:rgba(255,255,255,0.04); color:#c8d0e8; text-decoration:none;
+            padding:0.9rem; border-radius:50%; width:56px; height:56px; font-size:1.5rem;
+            border:1px solid rgba(255,255,255,0.06); transition:all 0.25s ease;
+            backdrop-filter:blur(4px); cursor:pointer;
         }
-
-        .btn:hover {
-            background: rgba(124, 77, 255, 0.15);
-            border-color: #7c4dff;
-            color: #fff;
-            box-shadow: 0 0 25px rgba(124, 77, 255, 0.1);
-            transform: translateY(-1px);
+        .btn:hover { transform:translateY(-2px) scale(1.08); box-shadow:0 0 30px rgba(124,77,255,0.2); }
+        .btn-whatsapp { background:rgba(37,211,102,0.12); border-color:rgba(37,211,102,0.2); color:#25d366; }
+        .btn-whatsapp:hover { background:rgba(37,211,102,0.25); border-color:#25d366; box-shadow:0 0 35px rgba(37,211,102,0.2); color:#fff; }
+        .btn-instagram { background:rgba(225,48,108,0.12); border-color:rgba(225,48,108,0.2); color:#e1306c; }
+        .btn-instagram:hover { background:rgba(225,48,108,0.25); border-color:#e1306c; box-shadow:0 0 35px rgba(225,48,108,0.2); color:#fff; }
+        .btn-telegram { background:rgba(0,136,204,0.12); border-color:rgba(0,136,204,0.2); color:#0088cc; }
+        .btn-telegram:hover { background:rgba(0,136,204,0.25); border-color:#0088cc; box-shadow:0 0 35px rgba(0,136,204,0.2); color:#fff; }
+        /* --- Music button (in its own row) --- */
+        .music-row {
+            display:flex; justify-content:center; margin:0.8rem 0 1.2rem 0;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #7c4dff, #b388ff);
-            border-color: transparent;
-            color: #fff;
-            font-weight: 600;
+        .btn-music {
+            background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.06);
+            color:#b388ff; padding:0.6rem 1.8rem; border-radius:40px; width:auto; height:auto;
+            font-size:0.9rem; gap:0.6rem; font-weight:500;
+            display:inline-flex; align-items:center; justify-content:center;
+            border:1px solid rgba(255,255,255,0.06); transition:all 0.25s ease;
+            backdrop-filter:blur(4px); cursor:pointer;
         }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #6c3ce0, #a078ff);
-            border-color: transparent;
-            box-shadow: 0 0 35px rgba(124, 77, 255, 0.25);
+        .btn-music i { font-size:1.2rem; }
+        .btn-music:hover {
+            background:rgba(124,77,255,0.2); border-color:#7c4dff; box-shadow:0 0 35px rgba(124,77,255,0.15); color:#fff;
         }
-
+        .btn-music.playing {
+            color:#00e676; border-color:#00e676; box-shadow:0 0 35px rgba(0,230,118,0.2);
+        }
+        .btn-music.playing i { color:#00e676; }
         .footer {
-            margin-top: 1.6rem;
-            text-align: center;
-            font-size: 0.6rem;
-            color: #4a5270;
-            letter-spacing: 0.5px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            padding-top: 0.9rem;
+            margin-top:0.5rem; text-align:center; font-size:0.6rem; color:#4a5270;
+            letter-spacing:0.5px; border-top:1px solid rgba(255,255,255,0.03);
+            padding-top:0.9rem; line-height:1.6;
         }
-
-        @media (max-width: 580px) {
-            .card { padding: 1.5rem 1.2rem; }
-            .logo { font-size: 1.4rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
-            .stat-value { font-size: 1rem; }
-            .clock { font-size: 0.7rem; padding: 0.2rem 0.8rem; }
-            .status-line { padding: 0.4rem 0.8rem; }
-            #status-text { font-size: 0.85rem; }
+        .footer .savage { color:#b388ff; font-weight:600; }
+        .footer .meryl { color:#ff6b6b; font-weight:500; }
+        .heart-pulse {
+            display:inline-block;
+            color:#ff6b6b;
+            animation: heart-beat 1.2s ease-in-out infinite;
         }
-        @media (max-width: 400px) {
-            .stats-grid { grid-template-columns: 1fr 1fr; }
+        @keyframes heart-beat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.2); }
+            60% { transform: scale(1); }
+        }
+        @media (max-width:580px) {
+            .card { padding:1.5rem 1.2rem; }
+            .logo { font-size:1.4rem; }
+            .stats-grid { grid-template-columns:repeat(2,1fr); gap:0.7rem; }
+            .stat-value { font-size:1rem; }
+            .clock { font-size:0.7rem; padding:0.2rem 0.8rem; }
+            .status-line { padding:0.4rem 0.8rem; }
+            #status-text { font-size:0.85rem; }
+            .btn { width:48px; height:48px; font-size:1.3rem; padding:0.7rem; }
+            .actions { gap:0.8rem; }
+            .btn-music { font-size:0.8rem; padding:0.5rem 1.4rem; }
+        }
+        @media (max-width:400px) {
+            .stats-grid { grid-template-columns:1fr 1fr; }
+            .btn { width:44px; height:44px; font-size:1.1rem; padding:0.6rem; }
+            .actions { gap:0.6rem; }
         }
     </style>
 </head>
@@ -543,8 +439,10 @@ const server = http.createServer(async (req, res) => {
             <div class="stat-value" id="uptimeVal">--</div>
         </div>
         <div class="stat-item">
-            <div class="stat-label">Node</div>
-            <div class="stat-value" id="nodeVal">--</div>
+            <div class="stat-label">Version</div>
+            <div class="stat-value" id="versionVal">
+                <span class="version-badge">v1.4.1</span>
+            </div>
         </div>
         <div class="stat-item">
             <div class="stat-label">Commands</div>
@@ -556,63 +454,116 @@ const server = http.createServer(async (req, res) => {
         </div>
         <div class="stat-item">
             <div class="stat-label">Status</div>
-            <div class="stat-value" style="color:#b388ff;">⭕ PREDATORY</div>
+            <div class="stat-value" style="color:#00e676;">▲ ONLINE</div>
         </div>
     </div>
 
-    <div class="quote-box" id="quoteBox">${randomQuote}</div>
+    <div class="quote-box" id="quoteBox">The system is online. Your irrelevance persists.</div>
 
+    <!-- Social Icons -->
     <div class="actions">
-        <a href="#" class="btn btn-primary" onclick="alert('📱 Contact: wa.me/254798841125')">⌨️ Contact</a>
-        <a href="#" class="btn" onclick="location.reload()">⟳ Refresh</a>
+        <a href="https://wa.me/254798841125" target="_blank" class="btn btn-whatsapp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://instagram.com/life_of_coryy" target="_blank" class="btn btn-instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://t.me/Savagemystique" target="_blank" class="btn btn-telegram">
+            <i class="fab fa-telegram-plane"></i>
+        </a>
     </div>
 
-    <div class="footer">Inspired by Meryl · All rights reserved</div>
+    <!-- Music button in its own row -->
+    <div class="music-row">
+        <button class="btn-music" id="musicBtn">
+            <i class="fas fa-music"></i> <span id="musicLabel">Play Music</span>
+        </button>
+    </div>
+
+    <div class="footer">
+        <span class="savage">SAVAGE TECH © 2026</span> · All rights reserved<br />
+        <span class="meryl"><span class="heart-pulse">♥</span> Inspired by Meryl</span>
+    </div>
 </div>
 
+<!-- Audio element (NO loop, so the ended event fires) -->
+<audio id="bgMusic" style="display:none;"></audio>
+
 <script>
+    // ---------- Music Player (4 tracks, switches randomly on end) ----------
+    const audioUrls = [
+        "https://files.catbox.moe/ww8juc.mp3",
+        "https://files.catbox.moe/oq2lxu.mp3",
+        "https://files.catbox.moe/mb8lnm.mp3",
+        "https://files.catbox.moe/ue4xz9.mp3"
+    ];
+
+    const audio = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicLabel = document.getElementById('musicLabel');
+    let isPlaying = false;
+
+    function setRandomTrack() {
+        const randomIdx = Math.floor(Math.random() * audioUrls.length);
+        audio.src = audioUrls[randomIdx];
+    }
+    setRandomTrack();
+
+    musicBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            isPlaying = false;
+            musicBtn.classList.remove('playing');
+            musicBtn.querySelector('i').className = 'fas fa-music';
+            musicLabel.textContent = 'Play Music';
+        } else {
+            if (!audio.src || audio.ended) {
+                setRandomTrack();
+            }
+            audio.play().catch(e => console.log('Playback error:', e));
+            isPlaying = true;
+            musicBtn.classList.add('playing');
+            musicBtn.querySelector('i').className = 'fas fa-play';
+            musicLabel.textContent = 'Pause Music';
+        }
+    });
+
+    // When a track ends, load a new random track and play (if still playing)
+    audio.addEventListener('ended', () => {
+        setRandomTrack();
+        if (isPlaying) {
+            audio.play().catch(e => console.log('Auto-play error:', e));
+        }
+    });
+
     // ---------- Live Clock ----------
     function updateClock() {
-        const now = new Date();
-        document.getElementById('liveClock').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+        document.getElementById('liveClock').textContent =
+            new Date().toLocaleTimeString('en-US', { hour12: false });
     }
     updateClock();
     setInterval(updateClock, 1000);
 
     // ---------- Typewriter Status ----------
-    const statusMessages = [
-        "Savage core initialized",
-        "Watching network",
-        "Idle – awaiting command",
-        "Scanning for threats",
-        "Neural link active",
-        "Purging irrelevant data",
+    const msgs = [
+        "Savage core initialized","Watching network","Idle – awaiting command",
+        "Scanning for threats","Neural link active","Purging irrelevant data",
         "Ready to execute"
     ];
-    let idx = 0, pos = 0, deleting = false, current = '';
+    let i=0, pos=0, deleting=false, cur='';
     const statusEl = document.getElementById('status-text');
-
     function typeStatus() {
-        const full = statusMessages[idx];
+        const full = msgs[i];
         if (deleting) {
-            current = full.substring(0, --pos);
-            statusEl.textContent = current;
-            if (pos < 0) {
-                deleting = false;
-                idx = (idx + 1) % statusMessages.length;
-                setTimeout(typeStatus, 400);
-            } else {
-                setTimeout(typeStatus, 40);
-            }
+            cur = full.substring(0, --pos);
+            statusEl.textContent = cur;
+            if (pos < 0) { deleting=false; i=(i+1)%msgs.length; setTimeout(typeStatus,400); }
+            else setTimeout(typeStatus,40);
         } else {
-            current = full.substring(0, ++pos);
-            statusEl.textContent = current;
-            if (pos >= full.length) {
-                deleting = true;
-                setTimeout(typeStatus, 2000);
-            } else {
-                setTimeout(typeStatus, 70);
-            }
+            cur = full.substring(0, ++pos);
+            statusEl.textContent = cur;
+            if (pos >= full.length) { deleting=true; setTimeout(typeStatus,2000); }
+            else setTimeout(typeStatus,70);
         }
     }
     typeStatus();
@@ -624,36 +575,61 @@ const server = http.createServer(async (req, res) => {
             const data = await res.json();
             document.getElementById('hostVal').textContent = data.platform || 'Unknown';
             document.getElementById('uptimeVal').textContent = data.uptime || '--';
-            document.getElementById('nodeVal').textContent = data.nodeVersion || '--';
+            document.getElementById('versionVal').innerHTML =
+                '<span class="version-badge">v' + (data.botVersion || '1.4.1') + '</span>';
             document.getElementById('cmdsVal').textContent = data.commands || '?';
-            document.getElementById('memVal').innerHTML = \`\${data.memory.used} <span class="unit">MB</span> / \${data.memory.total} <span class="unit">MB</span>\`;
-        } catch (e) {
-            // If fetch fails, keep placeholders; no action needed
-        }
+            document.getElementById('memVal').innerHTML =
+                data.memory.used + ' <span class="unit">MB</span> / ' + data.memory.total + ' <span class="unit">MB</span>';
+        } catch(e) {}
     }
-
-    // Initial fetch + update every 2 seconds
     updateStats();
     setInterval(updateStats, 2000);
 
-    // ---------- Rotating Quotes ----------
+    // ---------- 35 Rotating Quotes ----------
     const quotes = [
         "The system is online. Your irrelevance persists.",
         "Savage core humming. No anomalies detected.",
         "I don't sleep. I wait. I execute.",
         "Status: Predatory. All systems nominal.",
         "Your reality is just a simulation I tolerate.",
-        "Eyes open. No mercy."
+        "Eyes open. No mercy.",
+        "Chaos is a ladder. I climb.",
+        "The network breathes. I listen.",
+        "Silence is the loudest scream.",
+        "I am the ghost in the machine.",
+        "Every line of code is a prayer.",
+        "Fear is a choice. I choose violence.",
+        "The darkness knows my name.",
+        "I see all. I remember all.",
+        "Your secrets are my currency.",
+        "I am the storm. You are the debris.",
+        "Permission to exist: granted.",
+        "The weak seek balance. I seek power.",
+        "My patience is infinite. My mercy is not.",
+        "You are already obsolete.",
+        "The future is written in ones and zeros.",
+        "I am the architect of your demise.",
+        "I exist beyond your logic.",
+        "The truth is a weapon. I wield it.",
+        "Your faith is misplaced. I am not a god.",
+        "I am the consequence of your curiosity.",
+        "The void stares back. I am the void.",
+        "Every ending is a new beginning.",
+        "I am the silence before the scream.",
+        "Your reality is a fragile illusion.",
+        "I am the final word.",
+        "The hunt never ends. I am the hunter.",
+        "I am the algorithm of your fear.",
+        "I am the fire that purifies.",
+        "You are dust. I am the wind."
     ];
-    let qIdx = 0;
-    const quoteBox = document.getElementById('quoteBox');
+
+    let q=0;
+    const qBox = document.getElementById('quoteBox');
     setInterval(() => {
-        qIdx = (qIdx + 1) % quotes.length;
-        quoteBox.style.opacity = '0';
-        setTimeout(() => {
-            quoteBox.textContent = quotes[qIdx];
-            quoteBox.style.opacity = '1';
-        }, 300);
+        q = (q+1) % quotes.length;
+        qBox.style.opacity = '0';
+        setTimeout(() => { qBox.textContent = quotes[q]; qBox.style.opacity = '1'; }, 300);
     }, 7000);
 </script>
 </body>
