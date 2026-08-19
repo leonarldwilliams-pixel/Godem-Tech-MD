@@ -1,4 +1,4 @@
-# ⛓ SΛVΛGΞ-TECH ☢
+# 『 𝙂𝙊𝘿𝙀𝙈 𝙓 𝙈𝘿 』
 
 <p align="center">
   <img src="https://files.catbox.moe/7ipa9d.jpg" width="300" alt="SΛVΛGΞ-TECH">
@@ -6,13 +6,13 @@
 
 <p align="center">
   <a href="https://github.com/tysavage163/Savage-Tech">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=1000&color=00FFFF&center=true&vCenter=true&width=900&height=100&lines=A+Baileys+multi-device+WhatsApp+bot;Created+by+Spencer;inspired+by+Meryl;Now+deployable+on+all+platforms;pair...;deploy...;enjoy...;a+masterpiece+in+creation" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=1000&color=00FFFF&center=true&vCenter=true&width=900&height=100&lines=A+Baileys+multi-device+WhatsApp+bot;Created+by+Emmanuel;Young+Tech+Expert;Now+deployable+on+all+platforms;pair...;deploy...;enjoy...;a+masterpiece+in+creation" alt="Typing SVG" />
   </a>
 </p>
 
 ---
 
-### 📂 FORK SΛVΛGΞ-TECH
+### 📂 FORK 𝙂𝙊𝘿𝙀𝙈 𝙓 𝙈𝘿 
 <p align="center">
   <a href="https://github.com/tysavage163/Savage-Tech/fork">
     <img src="https://img.shields.io/badge/FORK_REPO-4A00E0?style=for-the-badge&logo=github&logoColor=white" alt="Fork Repo">
@@ -21,7 +21,7 @@
 
 ---
 
-### 🚀 DEPLOY SΛVΛGΞ-TECH
+### 🚀 Deploy 𝙂𝙊𝘿𝙀𝙈 𝙓 𝙈𝘿
 <p align="center">
   <a href="https://dashboard.render.com/web/new">
     <img src="https://img.shields.io/badge/RENDER_DEPLOY-0A6EBD?style=for-the-badge&logo=render&logoColor=white" alt="Render Deploy">
@@ -71,7 +71,7 @@
 
 ---
 
-### 📦 SΛVΛGΞ-TECH ZIP
+### 📦 𝙂𝙊𝘿𝙀𝙈 𝙓 𝙈𝘿 ZIP
 <p align="center">
   <a href="https://github.com/tysavage163/Savage-Tech/archive/refs/heads/main.zip">
     <img src="https://img.shields.io/badge/DOWNLOAD_ZIP-006D77?style=for-the-badge&logo=github&logoColor=white" alt="Download Zip">
@@ -82,7 +82,7 @@
 
 ### 🔗 JOIN OUR CHANNEL
 <p align="center">
-  <a href="https://whatsapp.com/channel/0029VbCuEBJEAKWOWVH3G21e">
+  <a href="https://whatsapp.com/channel/0029Vb8N5ye7dmeiDI3XRa3B">
     <img src="https://img.shields.io/badge/Join_WhatsApp_Channel-008000?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Join WhatsApp Channel"/>
   </a>
 </p>
@@ -91,12 +91,12 @@
 
 ### 👤 CONTACT DEVELOPER
 <p align="center">
-  <a href="https://wa.me/254105397996">
+  <a href="https://wa.me/2348065095451">
     <img src="https://img.shields.io/badge/CONTACT_DEVELOPER-6A4C93?style=for-the-badge&logo=whatsapp&logoColor=white" alt="Contact Developer">
   </a>
 </p>
 <p align="center">
-  <a href="https://t.me/Savagemystique">
+  <a href="https://t.me/BTExchangeofficia">
     <img src="https://img.shields.io/badge/CONTACT_TELEGRAM-0088CC?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact Telegram">
   </a>
 </p>
@@ -105,6 +105,6 @@
 
 <p align="center">
   <a href="https://github.com/tysavage163/Savage-Tech">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=26&pause=1500&color=00FFFF&center=true&vCenter=true&width=800&height=80&lines=Keep+it+simple,+make+it+powerful." alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=26&pause=1500&color=00FFFF&center=true&vCenter=true&width=800&height=80&lines=Powerful+MD+Bot,+By+Godem+Official." alt="Typing SVG" />
   </a>
 </p>
