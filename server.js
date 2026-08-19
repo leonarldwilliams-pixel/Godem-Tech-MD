@@ -562,38 +562,43 @@ const server = http.createServer(async (req, res) => {
     updateClock();
     setInterval(updateClock, 1000);
 
-    // ---------- Offline Phrases ----------
+    // ---------- Offline Phrases (TECHNICAL) ----------
     const offlinePhrases = [
-        "Bot is sleeping…",
-        "Connection lost. Reconnecting…",
-        "Offline. Waiting for resurrection.",
-        "Signal lost. Retrying…",
-        "Bot went on vacation. Be back soon.",
-        "Offline mode. Check your network.",
-        "No heartbeat. Trying to revive.",
-        "Offline. Pray for a miracle.",
-        "Disconnected. Rebooting core.",
-        "Offline. The void is quiet.",
-        "Bot is resting. Please wait.",
-        "Offline. Savage is taking a nap."
+        "WebSocket connection lost. Re-establishing handshake...",
+        "No heartbeat from WhatsApp servers. Retrying in 5s...",
+        "Session expired or invalid. Requesting new credentials...",
+        "Network unreachable. Checking DNS and routing...",
+        "API rate limit exceeded. Cooling down...",
+        "Authentication failed. Re-initializing auth state...",
+        "Connection timed out. Attempting fallback protocol...",
+        "Backend service unavailable. Switching to backup node...",
+        "SSH tunnel broken. Re-establishing secure channel...",
+        "Database connection pool exhausted. Reconnecting...",
+        "Memory leak detected. Forcing garbage collection...",
+        "Process hung. Sending SIGTERM and restarting..."
     ];
 
     function getRandomOfflinePhrase() {
         return offlinePhrases[Math.floor(Math.random() * offlinePhrases.length)];
     }
 
-    // ---------- Typewriter Status (Online messages) ----------
+    // ---------- Typewriter Status (Online messages - TECHNICAL, 7 messages) ----------
     const onlineMessages = [
-        "Savage core initialized","Watching network","Idle – awaiting command",
-        "Scanning for threats","Neural link active","Purging irrelevant data",
-        "Ready to execute"
+        "Initializing Savage core services...",
+        "Establishing WebSocket connection...",
+        "Authenticating session credentials...",
+        "Synchronizing command registry...",
+        "Monitoring network for threats...",
+        "Purging expired cache entries...",
+        "System ready. Awaiting input."
     ];
+
     let msgIndex = 0, pos = 0, deleting = false, currentText = '';
     const statusEl = document.getElementById('status-text');
     let typewriterInterval = null;
 
     function typeStatus() {
-        if (!statusEl || statusEl.classList.contains('offline')) return; // don't type if offline
+        if (!statusEl || statusEl.classList.contains('offline')) return;
         const full = onlineMessages[msgIndex];
         if (deleting) {
             currentText = full.substring(0, --pos);
@@ -622,9 +627,8 @@ const server = http.createServer(async (req, res) => {
             clearTimeout(typewriterInterval);
             typewriterInterval = null;
         }
-        // Reset state
         msgIndex = 0; pos = 0; deleting = false; currentText = '';
-        typeStatus(); // start the recursive chain
+        typeStatus();
     }
 
     function stopTypewriter() {
@@ -632,25 +636,15 @@ const server = http.createServer(async (req, res) => {
             clearTimeout(typewriterInterval);
             typewriterInterval = null;
         }
-        // We also need to cancel any pending timeouts from typeStatus – we'll use a flag
-        // Since typeStatus uses setTimeout, we can't easily cancel them all.
-        // We'll set a global flag to prevent further typing.
         window._stopTyping = true;
-        // After a short delay, we can reset the flag.
         setTimeout(() => { window._stopTyping = false; }, 500);
     }
 
-    // Override the typeStatus to check the stop flag
+    // Override typeStatus with stop flag check
     const originalTypeStatus = typeStatus;
     typeStatus = function() {
-        if (window._stopTyping) {
-            // Stop the recursion
-            return;
-        }
-        if (statusEl.classList.contains('offline')) {
-            // If offline, don't type
-            return;
-        }
+        if (window._stopTyping) return;
+        if (statusEl.classList.contains('offline')) return;
         const full = onlineMessages[msgIndex];
         if (deleting) {
             currentText = full.substring(0, --pos);
@@ -691,36 +685,27 @@ const server = http.createServer(async (req, res) => {
             document.getElementById('memVal').innerHTML =
                 data.memory.used + ' <span class="unit">MB</span> / ' + data.memory.total + ' <span class="unit">MB</span>';
 
-            // Determine online/offline
             const isOnline = commands !== '?';
             const statusTextEl = document.getElementById('status-text');
             const dotEl = document.getElementById('statusDot');
 
             if (isOnline) {
-                // Online
                 dotEl.className = 'dot';
                 statusTextEl.classList.remove('offline');
                 statusStat.innerHTML = '<span class="status-online">▲ ONLINE</span>';
-                // Restart typewriter if not already running
-                if (statusTextEl.textContent === '' || statusTextEl.textContent.startsWith('Offline')) {
-                    // Force start
+                if (statusTextEl.textContent === '' || statusTextEl.textContent.startsWith('WebSocket') || statusTextEl.textContent.startsWith('No') || statusTextEl.textContent.startsWith('Session')) {
                     window._stopTyping = false;
                     msgIndex = 0; pos = 0; deleting = false; currentText = '';
                     typeStatus();
                 }
-                // If typewriter seems stopped, restart
             } else {
-                // Offline
                 dotEl.className = 'dot offline';
                 statusTextEl.classList.add('offline');
                 statusStat.innerHTML = '<span class="status-offline">⛔ OFFLINE</span>';
-                // Show random offline phrase
                 statusTextEl.textContent = getRandomOfflinePhrase();
-                // Stop typewriter
                 window._stopTyping = true;
             }
         } catch(e) {
-            // On fetch error, treat as offline
             const dotEl = document.getElementById('statusDot');
             dotEl.className = 'dot offline';
             const statusTextEl = document.getElementById('status-text');
@@ -731,7 +716,6 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
-    // Initial call and interval
     updateStats();
     setInterval(updateStats, 2000);
 
