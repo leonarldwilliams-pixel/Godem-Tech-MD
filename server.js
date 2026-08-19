@@ -308,11 +308,27 @@ const server = http.createServer(async (req, res) => {
         }
         .dot {
             width:10px; height:10px; border-radius:50%;
-            background:#00e676; box-shadow:0 0 16px #00e676aa;
+            background:#00e676;
+            box-shadow:0 0 16px #00e676aa;
             animation:pulse-dot 1.6s infinite;
+            transition: background 0.4s, box-shadow 0.4s;
         }
-        @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
-        #status-text { font-weight:500; color:#d4dcff; font-size:0.95rem; }
+        .dot.offline {
+            background:#ff4444;
+            box-shadow:0 0 16px #ff444488;
+            animation: none;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity:1; transform:scale(1); }
+            50% { opacity:0.4; transform:scale(0.8); }
+        }
+        #status-text {
+            font-weight:500; color:#d4dcff; font-size:0.95rem;
+            transition: color 0.3s;
+        }
+        #status-text.offline {
+            color: #ff6666;
+        }
         .stats-grid {
             display:grid; grid-template-columns:repeat(3,1fr); gap:0.9rem; margin:1.6rem 0;
         }
@@ -335,6 +351,8 @@ const server = http.createServer(async (req, res) => {
             background:rgba(124,77,255,0.2); padding:0.1rem 0.6rem; border-radius:20px;
             border:1px solid rgba(124,77,255,0.3); color:#b388ff;
         }
+        .stat-value .status-online { color:#00e676; }
+        .stat-value .status-offline { color:#ff4444; }
         .quote-box {
             background:rgba(0,0,0,0.2); border-radius:12px; padding:0.8rem 1.2rem;
             margin:1.4rem 0 1.6rem 0; border-left:3px solid #ff6b6b;
@@ -425,7 +443,7 @@ const server = http.createServer(async (req, res) => {
     </div>
 
     <div class="status-line">
-        <span class="dot"></span>
+        <span class="dot" id="statusDot"></span>
         <span id="status-text">Neural link active</span>
     </div>
 
@@ -454,7 +472,7 @@ const server = http.createServer(async (req, res) => {
         </div>
         <div class="stat-item">
             <div class="stat-label">Status</div>
-            <div class="stat-value" style="color:#00e676;">▲ ONLINE</div>
+            <div class="stat-value" id="statusStat">▲ ONLINE</div>
         </div>
     </div>
 
@@ -544,31 +562,116 @@ const server = http.createServer(async (req, res) => {
     updateClock();
     setInterval(updateClock, 1000);
 
-    // ---------- Typewriter Status ----------
-    const msgs = [
-        "Savage core initialized","Watching network","Idle – awaiting command",
-        "Scanning for threats","Neural link active","Purging irrelevant data",
-        "Ready to execute"
+    // ---------- Offline Phrases (TECHNICAL) ----------
+    const offlinePhrases = [
+        "WebSocket connection lost. Re-establishing handshake...",
+        "No heartbeat from WhatsApp servers. Retrying in 5s...",
+        "Session expired or invalid. Requesting new credentials...",
+        "Network unreachable. Checking DNS and routing...",
+        "API rate limit exceeded. Cooling down...",
+        "Authentication failed. Re-initializing auth state...",
+        "Connection timed out. Attempting fallback protocol...",
+        "Backend service unavailable. Switching to backup node...",
+        "SSH tunnel broken. Re-establishing secure channel...",
+        "Database connection pool exhausted. Reconnecting...",
+        "Memory leak detected. Forcing garbage collection...",
+        "Process hung. Sending SIGTERM and restarting..."
     ];
-    let i=0, pos=0, deleting=false, cur='';
+
+    function getRandomOfflinePhrase() {
+        return offlinePhrases[Math.floor(Math.random() * offlinePhrases.length)];
+    }
+
+    // ---------- Typewriter Status (Online messages - TECHNICAL, 7 messages) ----------
+    const onlineMessages = [
+        "Initializing Savage core services...",
+        "Establishing WebSocket connection...",
+        "Authenticating session credentials...",
+        "Synchronizing command registry...",
+        "Monitoring network for threats...",
+        "Purging expired cache entries...",
+        "System ready. Awaiting input."
+    ];
+
+    let msgIndex = 0, pos = 0, deleting = false, currentText = '';
     const statusEl = document.getElementById('status-text');
+    let typewriterInterval = null;
+
     function typeStatus() {
-        const full = msgs[i];
+        if (!statusEl || statusEl.classList.contains('offline')) return;
+        const full = onlineMessages[msgIndex];
         if (deleting) {
-            cur = full.substring(0, --pos);
-            statusEl.textContent = cur;
-            if (pos < 0) { deleting=false; i=(i+1)%msgs.length; setTimeout(typeStatus,400); }
-            else setTimeout(typeStatus,40);
+            currentText = full.substring(0, --pos);
+            statusEl.textContent = currentText;
+            if (pos < 0) {
+                deleting = false;
+                msgIndex = (msgIndex + 1) % onlineMessages.length;
+                setTimeout(typeStatus, 400);
+            } else {
+                setTimeout(typeStatus, 40);
+            }
         } else {
-            cur = full.substring(0, ++pos);
-            statusEl.textContent = cur;
-            if (pos >= full.length) { deleting=true; setTimeout(typeStatus,2000); }
-            else setTimeout(typeStatus,70);
+            currentText = full.substring(0, ++pos);
+            statusEl.textContent = currentText;
+            if (pos >= full.length) {
+                deleting = true;
+                setTimeout(typeStatus, 2000);
+            } else {
+                setTimeout(typeStatus, 70);
+            }
         }
     }
-    typeStatus();
+
+    function startTypewriter() {
+        if (typewriterInterval) {
+            clearTimeout(typewriterInterval);
+            typewriterInterval = null;
+        }
+        msgIndex = 0; pos = 0; deleting = false; currentText = '';
+        typeStatus();
+    }
+
+    function stopTypewriter() {
+        if (typewriterInterval) {
+            clearTimeout(typewriterInterval);
+            typewriterInterval = null;
+        }
+        window._stopTyping = true;
+        setTimeout(() => { window._stopTyping = false; }, 500);
+    }
+
+    // Override typeStatus with stop flag check
+    const originalTypeStatus = typeStatus;
+    typeStatus = function() {
+        if (window._stopTyping) return;
+        if (statusEl.classList.contains('offline')) return;
+        const full = onlineMessages[msgIndex];
+        if (deleting) {
+            currentText = full.substring(0, --pos);
+            statusEl.textContent = currentText;
+            if (pos < 0) {
+                deleting = false;
+                msgIndex = (msgIndex + 1) % onlineMessages.length;
+                setTimeout(typeStatus, 400);
+            } else {
+                setTimeout(typeStatus, 40);
+            }
+        } else {
+            currentText = full.substring(0, ++pos);
+            statusEl.textContent = currentText;
+            if (pos >= full.length) {
+                deleting = true;
+                setTimeout(typeStatus, 2000);
+            } else {
+                setTimeout(typeStatus, 70);
+            }
+        }
+    };
 
     // ---------- Fetch real stats from /stats ----------
+    const dot = document.getElementById('statusDot');
+    const statusStat = document.getElementById('statusStat');
+
     async function updateStats() {
         try {
             const res = await fetch('/stats');
@@ -577,11 +680,42 @@ const server = http.createServer(async (req, res) => {
             document.getElementById('uptimeVal').textContent = data.uptime || '--';
             document.getElementById('versionVal').innerHTML =
                 '<span class="version-badge">v' + (data.botVersion || '1.4.1') + '</span>';
-            document.getElementById('cmdsVal').textContent = data.commands || '?';
+            const commands = data.commands;
+            document.getElementById('cmdsVal').textContent = commands;
             document.getElementById('memVal').innerHTML =
                 data.memory.used + ' <span class="unit">MB</span> / ' + data.memory.total + ' <span class="unit">MB</span>';
-        } catch(e) {}
+
+            const isOnline = commands !== '?';
+            const statusTextEl = document.getElementById('status-text');
+            const dotEl = document.getElementById('statusDot');
+
+            if (isOnline) {
+                dotEl.className = 'dot';
+                statusTextEl.classList.remove('offline');
+                statusStat.innerHTML = '<span class="status-online">▲ ONLINE</span>';
+                if (statusTextEl.textContent === '' || statusTextEl.textContent.startsWith('WebSocket') || statusTextEl.textContent.startsWith('No') || statusTextEl.textContent.startsWith('Session')) {
+                    window._stopTyping = false;
+                    msgIndex = 0; pos = 0; deleting = false; currentText = '';
+                    typeStatus();
+                }
+            } else {
+                dotEl.className = 'dot offline';
+                statusTextEl.classList.add('offline');
+                statusStat.innerHTML = '<span class="status-offline">⛔ OFFLINE</span>';
+                statusTextEl.textContent = getRandomOfflinePhrase();
+                window._stopTyping = true;
+            }
+        } catch(e) {
+            const dotEl = document.getElementById('statusDot');
+            dotEl.className = 'dot offline';
+            const statusTextEl = document.getElementById('status-text');
+            statusTextEl.classList.add('offline');
+            statusStat.innerHTML = '<span class="status-offline">⛔ OFFLINE</span>';
+            statusTextEl.textContent = getRandomOfflinePhrase();
+            window._stopTyping = true;
+        }
     }
+
     updateStats();
     setInterval(updateStats, 2000);
 
