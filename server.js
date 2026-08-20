@@ -162,7 +162,7 @@ const server = http.createServer(async (req, res) => {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Savage-Tech Terminal</title>
+    <title>Godem X MD Terminal</title>
     <style>
         body { background: #0a0c12; color: #0f0; font-family: monospace; margin: 0; padding: 20px; }
         #terminal {
@@ -192,7 +192,7 @@ const server = http.createServer(async (req, res) => {
     </style>
 </head>
 <body>
-<div id="terminal">> Welcome to Savage-Tech Terminal\\n> Connecting...</div>
+<div id="terminal">> Welcome to Godem X MD Terminal\\n> Connecting...</div>
 <div class="input-line"><span>$&nbsp;</span><input id="command-input" type="text" autofocus></div>
 <script>
     const terminal = document.getElementById('terminal');
